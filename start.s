@@ -4,18 +4,35 @@
 .section .text 
 _start:
     // sys_write
-    mov rax, 1
-    mov rdi, 1
-    lea rsi, [hello_world]
-    mov rdx, 14
-    syscall
-
+	lea r10, [hello_world]
+	call _print
     call main
 
     // sys_exit
     mov rdi, rax
     mov	rax, 60
     syscall
+
+_print:
+	// Prepare stack frame
+	push rbp
+	mov rbp, rsp
+	push rdi
+	push rsi
+	push rdx
+
+	//Prepare syscall arguments
+    mov rax, 1
+    mov rdi, 1
+    lea rsi, [r10]
+    mov rdx, 14
+	syscall
+
+	pop rdx
+	pop rsi
+	pop rdi
+	pop rbp
+	ret
 
 .section .data 
 hello_world:
