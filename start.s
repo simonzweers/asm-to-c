@@ -4,7 +4,8 @@
 .section .text 
 _start:
     // sys_write
-	lea r10, [hello_world]
+	lea rdi, [hello_world]
+	mov esi, 14
 	call _print
     call main
 
@@ -17,20 +18,16 @@ _print:
 	// Prepare stack frame
 	push rbp
 	mov rbp, rsp
-	push rdi
-	push rsi
-	push rdx
 
-	//Prepare syscall arguments
+	mov QWORD PTR [rbp-8], rdi
+	mov DWORD PTR [rbp-16], esi
+    mov rsi, QWORD PTR [rbp-8]
+    mov rdx, QWORD PTR [rbp-16]
+	//Prepare syscall ashl     rax,32rguments
     mov rax, 1
     mov rdi, 1
-    lea rsi, [r10]
-    mov rdx, 14
 	syscall
 
-	pop rdx
-	pop rsi
-	pop rdi
 	pop rbp
 	ret
 
