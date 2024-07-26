@@ -1,5 +1,6 @@
 .intel_syntax noprefix
 .global _start
+.global _print
 
 .section .text 
 _start:
